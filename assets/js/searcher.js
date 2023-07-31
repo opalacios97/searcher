@@ -55,7 +55,7 @@ let loadProducts = () => {
                             price: prices[i].innerHTML
                         });
             }
-            
+
             mostrar();
               
         })
@@ -70,7 +70,22 @@ let loadProducts = () => {
     }
 
     let mostrar = () => {
-        let allData = jsonData.concat(xmlData);
+
+        let valorInput = document.getElementById("text").value;
+        let allData = jsonData.concat(xmlData)
+
+        if (valorInput===""){
+            allData = jsonData.concat(xmlData)   
+        }
+        else{
+            allData = allData.filter(p => (
+                ((p.name.toLowerCase()).includes(valorInput.toLowerCase()))||
+                ((p.type.toLowerCase()).includes(valorInput.toLowerCase()))
+            ))
+        }
+
+
+
         
         //mensaje a enviar
         let mensajeEnviar = ""
@@ -99,7 +114,7 @@ let loadProducts = () => {
                 </div>`;
         })
         //mensaje a cambiar
-        let mensajeCambiar = document.getElementsByClassName("row");
+        let mensajeCambiar = document.getElementsByClassName("tarjeta");
 
         mensajeCambiar[0].innerHTML = mensajeEnviar;
     }
@@ -121,21 +136,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     loadProducts();
  
-    // let element4 = document.getElementById("dropdownMenuButton");
+     let element = document.getElementById("filter");
+     let element2 = document.getElementById("text");
 
-    // element4.addEventListener('change', (event) => {
-    //     //Código a ejecutar
-    //     //El event contiene la información del elemento seleccionado
-    //     let selectedValue = event.target.value 
-    //     loadDayForecastData(weather_data,selectedValue)
-        
-    //     let element = document.getElementById("loadinfo");
-        
-    //     element.addEventListener('click', (event) => {
-    //         //Código a ejecutar
-    //         loadWeekForecastData(weather_data,selectedValue);
-    //     });
-    // });
+     element.addEventListener('click', (event) => {
+         //Código a ejecutar
+         loadProducts()})
 
-    
+
+         //cuando el input está vacío se vuelve a cargar todo
+     element2.addEventListener("change",(event) => {
+        //Código a ejecutar
+        if (element2.value === ""){
+            loadProducts()
+        }else{
+            console.log("Esperar botón filter")
+        }
+     })
+        
+
 });
